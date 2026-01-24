@@ -28,6 +28,7 @@ class teleop: NextFTCOpMode() {
         )
     }
 
+    val goalPose: Pose = Pose(144.0,144.0)
     val fwMotor1: MotorEx = MotorEx("")
     val fwMotor2: MotorEx = MotorEx("")
     val fwMotors = MotorGroup(fwMotor1,fwMotor2)
@@ -49,7 +50,7 @@ class teleop: NextFTCOpMode() {
     // use da blocker wherevr u need it
     val blocker: ServoEx = ServoEx("")
     val blocker_open_pos: Double = 0.0
-    val blocker_block_pos: Double = 0.0
+    val blocker_block_pos: Double = 0.2
     override fun onStartButtonPressed() {
         // Update here to be start pose
         follower.setStartingPose(Pose())
@@ -85,7 +86,8 @@ class teleop: NextFTCOpMode() {
     override fun onUpdate() {
         // Update this with gear ratio, angle, custom target, wtvr u want
         val currPose = follower.pose
-        val targetAng = normalizeAngle(Math.toDegrees(Math.atan2(144.0 - currPose.y,144.0 - currPose.x) - currPose.heading))
+        val targetAng = normalizeAngle(Math.toDegrees(Math.atan2(goalPose.y - currPose.y,goalPose.y - currPose.x) - currPose.heading))
+        val distance = currPose.distanceFrom(goalPose)
         turretTarget = (358092.0/289.0) * targetAng
         if (autoAim) {
             // flywheel target, update with any custom sht u want
