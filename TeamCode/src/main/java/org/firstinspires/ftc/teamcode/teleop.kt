@@ -87,15 +87,17 @@ class teleop: NextFTCOpMode() {
         // Update this with gear ratio, angle, custom target, wtvr u want
         val currPose = follower.pose
         val targetAng = normalizeAngle(Math.toDegrees(Math.atan2(goalPose.y - currPose.y,goalPose.y - currPose.x) - currPose.heading))
-        val distance = currPose.distanceFrom(goalPose)
+        val d = currPose.distanceFrom(goalPose)
         turretTarget = (358092.0/289.0) * targetAng
         if (autoAim) {
             // flywheel target, update with any custom sht u want
-            fwTarget = 0.0
+            fwTarget =  0.0142645*d*d + 1.26161*d + 748.88095
             fwControl.goal = KineticState(0.0,fwTarget)
             turretControl.goal = KineticState(turretTarget)
             fwMotors.power = fwControl.calculate(fwMotors.state)
         } else if (staticAim) {
+            // @zak put static flywheel speed here
+            fwTarget = 0.0
             fwControl.goal = KineticState(0.0,fwTarget)
             turretControl.goal = KineticState(turretTarget)
             fwMotors.power = fwControl.calculate(fwMotors.state)
