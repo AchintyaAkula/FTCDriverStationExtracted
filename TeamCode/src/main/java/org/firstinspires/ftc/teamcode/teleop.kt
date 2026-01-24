@@ -16,7 +16,7 @@ import dev.nextftc.hardware.controllable.MotorGroup
 import dev.nextftc.hardware.impl.MotorEx
 import dev.nextftc.hardware.impl.ServoEx
 
-@TeleOp()
+@TeleOp(name = "紅色的 TeleOp")
 class teleop: NextFTCOpMode() {
     init {
         addComponents(
