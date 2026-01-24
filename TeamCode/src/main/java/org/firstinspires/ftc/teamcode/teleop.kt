@@ -84,7 +84,9 @@ class teleop: NextFTCOpMode() {
 
     override fun onUpdate() {
         // Update this with gear ratio, angle, custom target, wtvr u want
-        turretTarget = 0.0
+        val currPose = follower.pose
+        val targetAng = normalizeAngle(Math.toDegrees(Math.atan2(144.0 - currPose.y,144.0 - currPose.x) - currPose.heading))
+        turretTarget = (358092.0/289.0) * targetAng
         if (autoAim) {
             // flywheel target, update with any custom sht u want
             fwTarget = 0.0
@@ -97,5 +99,15 @@ class teleop: NextFTCOpMode() {
             fwMotors.power = fwControl.calculate(fwMotors.state)
         }
         turretMotor.power = turretControl.calculate(turretMotor.state)
+    }
+    fun normalizeAngle(ang: Double): Double {
+        var a = ang
+        if (a < 0.0) {
+            a += 360.0
+        }
+        if (a > 180.0) {
+            a -= 360.0
+        }
+        return a
     }
 }
