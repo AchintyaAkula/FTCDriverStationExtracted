@@ -96,8 +96,8 @@ class teleop: NextFTCOpMode() {
             turretControl.goal = KineticState(turretTarget)
             fwMotors.power = fwControl.calculate(fwMotors.state)
         } else if (staticAim) {
-            // @zak put static flywheel speed here
-            fwTarget = 0.0
+            // @zak put static flywheel speed is 1200 rn, change if needed
+            fwTarget = 1200.0
             fwControl.goal = KineticState(0.0,fwTarget)
             turretControl.goal = KineticState(turretTarget)
             fwMotors.power = fwControl.calculate(fwMotors.state)
